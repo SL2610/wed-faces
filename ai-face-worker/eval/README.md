@@ -37,8 +37,8 @@ attribution), then run the same embed + analyze steps.
 
 ```bash
 python eval/build_golden.py --out eval/wedding
-docker cp eval/wedding moments-ai-search-1:/app/eval/wedding
-docker exec moments-ai-search-1 python eval/embed_v2.py           # GPU
+docker compose cp eval/wedding ai-search:/app/eval/wedding
+docker compose exec ai-search python eval/embed_v2.py     # GPU
 v1-venv/bin/python eval/embed_v1.py --golden eval/wedding        # baseline
 python eval/analyze.py --golden eval/wedding                     # -> reports/
 python eval/perf_bench.py --album <id> --selfie <selfie.jpg>

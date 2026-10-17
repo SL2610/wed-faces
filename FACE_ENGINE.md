@@ -86,7 +86,7 @@ curl -H "X-Admin-Token: $TOK" -F album_id=<id> -F file=@selfie.jpg \
      http://localhost:2610/api/ai/admin/search-debug
 ```
 
-The admin album view also shows per-face confidence/quality/size on hover over each face box.
+The admin album view can also outline each face it found on a photo.
 
 ## Evaluation
 

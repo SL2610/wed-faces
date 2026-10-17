@@ -39,7 +39,7 @@ photo, names and date with one "Find my photos" button. Guests type nothing
 before their first result: a selfie shows the photos they're in, ready to
 save or share on WhatsApp. They're asked for a name only when they upload
 photos or tag themselves. Hebrew is the default; the page has an English
-toggle. The admin area (`/login`, `/dashboard`, English-only for now) keeps
+toggle. The admin area (`/login`, `/dashboard`, Hebrew or English) keeps
 album settings, folder import, privacy, and processing status.
 
 One server can hold several weddings; each album is separate. Imported and guest-uploaded photos are PUBLIC (visible
@@ -74,7 +74,7 @@ without opening any router ports. Two modes:
 **2. Oracle Cloud "Always Free" tier: no home computer needed.** Oracle
 gives away an ARM VM (up to 24 GB RAM / 4 OCPU) forever, free, no card
 charged. Good if you don't want to leave a computer running at home. Caveat:
-it's ARM64, and this stack's AI images (TensorFlow/PyTorch-based) are
+it's ARM64, and this stack's AI images (ONNX Runtime-based) are
 **not verified on ARM**: build the `ai-worker`/`ai-search` images on the VM
 first (`docker compose build ai-worker ai-search`) and confirm they start
 before committing to this path. If they don't build cleanly, fall back to
@@ -99,10 +99,10 @@ model weights, downloaded once on first run).
 ## Bulk photo import (recommended for thousands of photos)
 
 1. Copy the photographer's files to `./data/import/` on the host (subfolders fine).
-2. In the app: album → Add Photos → **Import Local Folder** → path `/import` → Import Folder.
+2. In the app: album page → **Import a folder from the server** → folder `/import` → **Import**.
 3. Progress (found / imported / duplicates / failed) shows live. Duplicates are detected by file hash, so re-running the import only retries failures.
 
-Face indexing runs in the background; the album view shows per-photo scanning status. "Backfill" re-queues anything unprocessed.
+Face indexing runs in the background; the album view shows per-photo scanning status. `reindex.py --failed` re-queues failed photos (see [FACE_ENGINE.md](FACE_ENGINE.md)).
 
 ## GPU vs CPU
 
@@ -115,11 +115,11 @@ docker compose -f docker-compose.yml -f docker-compose.gpu.yml build ai-worker a
 docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
 ```
 
-Raise `AI_WORKER_CONCURRENCY` in `.env` (e.g. 4) when on GPU.
+Raise `AI_INFERENCE_CONCURRENCY` in `.env` (e.g. 4) when on GPU.
 
 ## Configuration notes
 
-- `PHOTO_MAX_SIZE_MB`, `TURNSTILE_SITE_KEY`, `DEMO_SELFIE_UPLOAD`, `SHOW_CREDIT` are baked into the web image at build time: run `docker compose build web` after changing them.
+- `PUBLIC_URL`, `PHOTO_MAX_SIZE_MB`, `TURNSTILE_SITE_KEY`, `SHOW_CREDIT` are baked into the web image at build time: run `docker compose build web` after changing them.
 - Turnstile bot protection is off when `TURNSTILE_SECRET`/`TURNSTILE_SITE_KEY` are blank.
 - Photo processing jobs live in the `processing_jobs` table (PENDING → PROCESSING → COMPLETED/FAILED, `JOB_MAX_ATTEMPTS` retries, crashed jobs are reclaimed after 15 minutes).
 - Photos are served through short-lived HMAC-signed URLs; protected originals are never enumerable by URL.
