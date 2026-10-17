@@ -36,7 +36,7 @@ Open source and self-hostable, so the couple owns the photos and the face data; 
 
 ## Brand Commitments
 
-Name: **WED Faces**, the free face-recognition core of **WED** (the hosted AI wedding album). Visual identity is WED's album look: ivory and white paper, charcoal, forest, Bodoni Moda/Hanken Grotesk with Frank Ruhl Libre/Assistant, crop marks and caption metadata. It must never read as a generic AI-generated wedding template.
+Name: **WED Faces**, the free face-recognition core of **WED** (the hosted AI wedding album). Visual identity is WED's album look: ivory and white paper, charcoal, espresso, Bodoni Moda/DM Sans with Frank Ruhl Libre/Heebo, crop marks and caption metadata. It must never read as a generic AI-generated wedding template.
 
 ## Evidence on Hand
 
